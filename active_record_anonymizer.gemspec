@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative "lib/active_record/anonymizer/version"
+require_relative "lib/active_record_anonymizer/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "active_record-anonymizer"
-  spec.version = ActiveRecord::Anonymizer::VERSION
+  spec.name = "active_record_anonymizer"
+  spec.version = ActiveRecordAnonymizer::VERSION
   spec.authors = ["Keshav Biswa"]
   spec.email = ["keshavbiswa21@gmail.com"]
 
@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
     A Rails gem to anonymize ActiveRecord attributes using Faker and other strategies.
   DESC
 
-  spec.homepage = "https://github.com/keshavbiswa/active_record-anonymizer"
+  spec.homepage = "https://github.com/keshavbiswa/active_record_anonymizer"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.7.7"
 
@@ -36,6 +36,9 @@ Gem::Specification.new do |spec|
 
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
+  spec.add_dependency "activerecord", ">= 5.2.0"
+  spec.add_dependency "activesupport", ">= 5.2.0"
+  spec.add_dependency "zeitwerk", "~> 2.4"
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
