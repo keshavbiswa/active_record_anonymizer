@@ -37,10 +37,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency "activerecord", ">= 5.2.0"
   spec.add_dependency "activesupport", ">= 5.2.0"
   spec.add_dependency "zeitwerk", "~> 2.4"
-
-  spec.add_development_dependency "appraisal", "> 2.0.0"
-  spec.add_development_dependency "mysql2"
-  spec.add_development_dependency "pg"
-  spec.add_development_dependency "rails", ">= 5.2.0"
-  spec.add_development_dependency "sqlite3"
 end
