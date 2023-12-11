@@ -15,4 +15,12 @@ class TestInvalidAnonymizers < ActiveSupport::TestCase
 
     assert_equal expected_message, error.message
   end
+
+  test "raises InvalidArgumentsError error if with and column_names are provided for attributes more than one" do
+    error = assert_raises ActiveRecordAnonymizer::InvalidArgumentsError do
+      InvalidAnonymizedArgumentsUser.new(first_name: "John", last_name: "Doe", email: "test@example.com")
+    end
+
+    assert_equal "with and column_names are not supported for multiple attributes. Try adding them seperately", error.message
+  end
 end

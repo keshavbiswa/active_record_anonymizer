@@ -8,6 +8,10 @@ module ActiveRecordAnonymizer
 
     class_methods do
       def anonymize(*attributes, with: nil, column_name: nil)
+        if attributes.size > 1 && (with || column_name)
+          raise InvalidArgumentsError, "with and column_names are not supported for multiple attributes. Try adding them seperately"
+        end
+
         check_for_missing_anonymized_columns(attributes)
         attributes.each do |attribute|
           define_anonymize_method(attribute, with, column_name)

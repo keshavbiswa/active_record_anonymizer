@@ -9,6 +9,7 @@ module ActiveRecordAnonymizer
 
   class Error < StandardError; end
   class ColumnNotFoundError < StandardError; end
+  class InvalidArgumentsError < StandardError; end
 
   class << self
     attr_reader :loader
