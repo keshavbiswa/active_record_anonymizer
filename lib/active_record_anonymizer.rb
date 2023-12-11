@@ -8,6 +8,7 @@ module ActiveRecordAnonymizer
   @loader.setup
 
   class Error < StandardError; end
+  class ColumnNotFoundError < StandardError; end
 
   class << self
     attr_reader :loader
@@ -16,6 +17,10 @@ module ActiveRecordAnonymizer
       loader.eager_load
     end
   end
+end
+
+ActiveSupport.on_load(:active_record) do
+  include ActiveRecordAnonymizer::Extensions
 end
 
 ActiveRecordAnonymizer.eager_load!
