@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class TestActiveRecordAnonymizer < Minitest::Test
+class TestActiveRecordAnonymizer < ActiveSupport::TestCase
   def test_that_it_has_a_version_number
     refute_nil ActiveRecordAnonymizer::VERSION
   end
