@@ -2,6 +2,7 @@
 
 require "active_record"
 require "zeitwerk"
+require "faker"
 
 module ActiveRecordAnonymizer
   @loader = Zeitwerk::Loader.for_gem
@@ -10,6 +11,7 @@ module ActiveRecordAnonymizer
   class Error < StandardError; end
   class ColumnNotFoundError < StandardError; end
   class InvalidArgumentsError < StandardError; end
+  class UnknownColumnTypeError < StandardError; end
 
   class << self
     attr_reader :loader

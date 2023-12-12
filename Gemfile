@@ -10,6 +10,7 @@ gem "pry", "~> 0.14.2"
 gem "rake", "~> 13.0"
 gem "rubocop", "~> 1.21"
 
+gem "mocha", "~> 2.1"
 gem "mysql2", "~> 0.5"
 gem "pg", "~> 1.2"
 gem "rails", ">= 6.0.0"

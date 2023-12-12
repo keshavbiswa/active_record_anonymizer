@@ -58,6 +58,11 @@ Metrics/BlockLength:
   CountComments: false
   Max: 30
 
+# Configuration parameters: CountComments, CountAsOne.
+Metrics/ClassLength:
+  Exclude:
+    - "test/**/*"
+
 # Configuration parameters: AllowedMethods, AllowedPatterns.
 Metrics/CyclomaticComplexity:
   Max: 17
