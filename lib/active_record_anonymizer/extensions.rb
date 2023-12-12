@@ -36,7 +36,7 @@ module ActiveRecordAnonymizer
 
     def anonymize_all_attributes
       anonymized_attributes.each_value do |anonymized_attr|
-        write_attribute(anonymized_attr, "Anonymized")
+        generate_and_write_fake_value(anonymized_attr)
       end
     end
 
@@ -46,8 +46,13 @@ module ActiveRecordAnonymizer
 
       changed_attributes.each do |attribute|
         anonymized_attr = anonymized_attributes[attribute]
-        write_attribute(anonymized_attr, "Updated Anonymized")
+        generate_and_write_fake_value(anonymized_attr)
       end
+    end
+
+    def generate_and_write_fake_value(anonymized_attr)
+      fake_value = FakeValue.new(anonymized_attr, self.class.columns_hash[anonymized_attr.to_s])
+      write_attribute(anonymized_attr, fake_value.generate_fake_value)
     end
   end
 end
