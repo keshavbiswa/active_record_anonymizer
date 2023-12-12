@@ -36,5 +36,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "activerecord", ">= 5.2.0"
   spec.add_dependency "activesupport", ">= 5.2.0"
+  spec.add_dependency "faker", ">= 2.9"
   spec.add_dependency "zeitwerk", "~> 2.4"
 end

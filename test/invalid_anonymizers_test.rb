@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class TestInvalidAnonymizers < ActiveSupport::TestCase
+class InvalidAnonymizersTest < ActiveSupport::TestCase
   test "raises ColumnNotFoundError if anonymized_columns are not generated" do
     error = assert_raises ActiveRecordAnonymizer::ColumnNotFoundError do
       UserWithoutAnonymizedColumn.create(first_name: "John", last_name: "Doe", email: "test@example.com")

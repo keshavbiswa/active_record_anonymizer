@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class ActiveRecordAnonymizer::TestAnonymizer < ActiveSupport::TestCase
+class ActiveRecordAnonymizer::AnonymizerTest < ActiveSupport::TestCase
   # Two things are required for this tests to work accurately
   # It needs to be tested on a class without the anonymize method definition
   # This is to ensure there is no redefinition happening

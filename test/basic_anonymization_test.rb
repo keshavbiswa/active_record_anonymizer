@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class TestBasicAnonymization < ActiveSupport::TestCase
+class BasicAnonymizationTest < ActiveSupport::TestCase
   def setup
     @user = User.new(first_name: "John", last_name: "Doe", email: "test@example.com")
   end
