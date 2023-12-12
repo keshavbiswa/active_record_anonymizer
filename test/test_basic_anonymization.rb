@@ -22,4 +22,21 @@ class TestBasicAnonymization < ActiveSupport::TestCase
     assert_equal "Anonymized Last Name", @user.last_name
     assert_equal "anonymized@example.com", @user.email
   end
+
+  test "Updates the anonymized value with fake data upon creation" do
+    @user.save!
+
+    assert_equal "Anonymized", @user.first_name
+    assert_equal "Anonymized", @user.last_name
+    assert_equal "Anonymized", @user.email
+  end
+
+  test "Updates the anonymized value with fake data upon update" do
+    @user.save!
+    @user.update!(first_name: "Jane", email: "updated_test@example.com")
+
+    assert_equal "Updated Anonymized", @user.first_name
+    assert_equal "Updated Anonymized", @user.email
+    assert_equal "Anonymized", @user.last_name
+  end
 end
