@@ -13,48 +13,16 @@ module ActiveRecordAnonymizer
       before_save :anonymize_columns
     end
 
-    class_methods do # rubocop:disable Metrics/BlockLength
+    class_methods do
       def anonymize(*attributes, with: nil, column_name: nil)
-        check_for_invalid_arguments(attributes, with, column_name)
-        check_for_missing_anonymized_columns(attributes)
+        anonymizer = Anonymizer.new(self, attributes, with: with, column_name: column_name)
+        anonymizer.validate
 
-        attributes.each do |attribute|
-          anonymized_attr = column_name || "anonymized_#{attribute}"
-          anonymized_attributes[attribute.to_sym] = anonymized_attr.to_sym
-          define_anonymize_method(attribute, with, anonymized_attr)
-        end
-      end
-
-      private
-
-      def check_for_missing_anonymized_columns(attributes)
-        missing_columns = attributes.reject do |attribute|
-          columns_hash["anonymized_#{attribute}"]
-        end
-
-        if missing_columns.any?
-          raise ColumnNotFoundError, <<~ERROR_MESSAGE.strip
-            Following columns do not have anonymized_columns: #{missing_columns.join(', ')}.
-            You can generate them by running `rails g anonymize #{name} #{missing_columns.join(' ')}`
-          ERROR_MESSAGE
-        end
-      end
-
-      def check_for_invalid_arguments(attributes, with, column_name)
-        if attributes.size > 1 && (with || column_name)
-          raise InvalidArgumentsError, "with and column_names are not supported for multiple attributes. Try adding them seperately"
-        end
-      end
-
-      # This defines a method that returns the anonymized value of the attribute.
-      # It also creates an alias "original_#{attribute}" that returns the original value. (TODO)
-      # If column_name is provided, it will be used instead of "anonymized_#{attribute}"
-      def define_anonymize_method(attribute, _with, anonymized_attr)
-        define_method(attribute) do
-          self[anonymized_attr]
-        end
+        anonymizer.anonymize_attributes
       end
     end
+
+    private
 
     def anonymize_columns
       if new_record?

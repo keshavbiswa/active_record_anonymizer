@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_12_065506) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_12_140250) do
   create_table "invalid_anonymized_arguments_users", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -23,6 +23,17 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_12_065506) do
     t.string "first_name"
     t.string "last_name"
     t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_without_anonymizers", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.string "anonymized_first_name", default: ""
+    t.string "anonymized_last_name", default: ""
+    t.string "anonymized_email", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
