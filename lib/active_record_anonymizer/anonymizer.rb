@@ -11,6 +11,7 @@ module ActiveRecordAnonymizer
       @column_name = column_name
     end
 
+    # TODO: Extract this logic in a seperate Validation module/class
     def validate
       check_for_invalid_arguments(attributes, with, column_name)
       check_for_missing_anonymized_columns(attributes)
