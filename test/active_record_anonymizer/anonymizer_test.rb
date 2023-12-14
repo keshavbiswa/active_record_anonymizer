@@ -9,8 +9,8 @@ class ActiveRecordAnonymizer::AnonymizerTest < ActiveSupport::TestCase
   # It needs to be on a fresh class
   # We use an anonymous class for it
   setup do
-    # This creates an anonymous subclass of UserWithoutAnonymizer for each test
-    @user_class = Class.new(UserWithoutAnonymizer)
+    # This creates an anonymous subclass of UserWithoutAnonymizeMethod for each test
+    @user_class = Class.new(UserWithoutAnonymizeMethod)
   end
 
   test "#validate raises ColumnNotFoundError if anonymized_columns are not generated" do
