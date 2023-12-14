@@ -6,6 +6,7 @@ require "faker"
 
 module ActiveRecordAnonymizer
   @loader = Zeitwerk::Loader.for_gem
+  @loader.ignore("#{__dir__}/generators")
   @loader.setup
 
   class Error < StandardError; end
