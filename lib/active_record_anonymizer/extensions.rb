@@ -18,7 +18,14 @@ module ActiveRecordAnonymizer
         anonymizer = Anonymizer.new(self, attributes, with: with, column_name: column_name)
         anonymizer.validate
 
-        anonymizer.anonymize_attributes
+        attributes.each do |attribute|
+          anonymized_attr = column_name || "anonymized_#{attribute}"
+          anonymized_attributes[attribute.to_sym] = { column: anonymized_attr.to_sym, with: with }
+
+          define_method(attribute) do
+            read_attribute(anonymized_attr)
+          end
+        end
       end
     end
 
@@ -35,8 +42,8 @@ module ActiveRecordAnonymizer
     end
 
     def anonymize_all_attributes
-      anonymized_attributes.each_value do |anonymized_attr|
-        generate_and_write_fake_value(anonymized_attr)
+      anonymized_attributes.each_value do |settings|
+        generate_and_write_fake_value(settings[:column], settings[:with])
       end
     end
 
@@ -45,14 +52,21 @@ module ActiveRecordAnonymizer
       changed_attributes = changes & anonymized_attributes.keys
 
       changed_attributes.each do |attribute|
-        anonymized_attr = anonymized_attributes[attribute]
-        generate_and_write_fake_value(anonymized_attr)
+        settings = anonymized_attributes[attribute]
+        generate_and_write_fake_value(settings[:column], settings[:with])
       end
     end
 
-    def generate_and_write_fake_value(anonymized_attr)
-      fake_value = FakeValue.new(anonymized_attr, self.class.columns_hash[anonymized_attr.to_s])
-      write_attribute(anonymized_attr, fake_value.generate_fake_value)
+    def generate_and_write_fake_value(anonymized_attr, with_strategy = nil)
+      fake_value = case with_strategy
+                   when Proc
+                     with_strategy.call(self)
+                   when Symbol
+                     send(with_strategy)
+                   else
+                     FakeValue.new(anonymized_attr, self.class.columns_hash[anonymized_attr.to_s]).generate_fake_value
+                   end
+      write_attribute(anonymized_attr, fake_value)
     end
   end
 end

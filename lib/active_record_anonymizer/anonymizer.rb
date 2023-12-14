@@ -19,14 +19,14 @@ module ActiveRecordAnonymizer
 
     def anonymize_attributes
       attributes.each do |attribute|
-        anonymized_attr = anonymized_column_name(attribute)
+        anonymized_column = anonymized_column_name(attribute)
 
         # I don't like that we're manipulating the class attribute here
         # This breaks the SRP for this method
         # TODO:- Will need to revisit how we set the class attribute later
-        model.anonymized_attributes[attribute.to_sym] = anonymized_attr.to_sym
+        model.anonymized_attributes[attribute.to_sym] = { column: anonymized_column.to_sym, with: with }
 
-        define_anonymize_method(attribute, with, anonymized_attr)
+        define_anonymize_method(attribute, anonymized_column)
       end
     end
 
@@ -62,7 +62,7 @@ module ActiveRecordAnonymizer
     # This defines a method that returns the anonymized value of the attribute.
     # It also creates an alias "original_#{attribute}" that returns the original value. (TODO)
     # If column_name is provided, it will be used instead of "anonymized_#{attribute}"
-    def define_anonymize_method(attribute, _with, anonymized_attr)
+    def define_anonymize_method(attribute, anonymized_attr)
       model.define_method(attribute) do
         self[anonymized_attr]
       end
