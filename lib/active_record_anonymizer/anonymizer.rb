@@ -19,7 +19,7 @@ module ActiveRecordAnonymizer
 
     def anonymize_attributes
       attributes.each do |attribute|
-        anonymized_attr = anonymized_attr_name(attribute)
+        anonymized_attr = anonymized_column_name(attribute)
 
         # I don't like that we're manipulating the class attribute here
         # This breaks the SRP for this method
@@ -34,7 +34,7 @@ module ActiveRecordAnonymizer
 
     def check_for_missing_anonymized_columns(attributes)
       missing_columns = attributes.reject do |attribute|
-        model.columns_hash[anonymized_attr_name(attribute)]
+        model.columns_hash[anonymized_column_name(attribute)]
       end
 
       if missing_columns.any?
@@ -51,7 +51,7 @@ module ActiveRecordAnonymizer
       end
     end
 
-    def anonymized_attr_name(attribute)
+    def anonymized_column_name(attribute)
       column_name || generated_column_name(attribute)
     end
 
