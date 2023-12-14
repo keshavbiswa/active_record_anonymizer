@@ -1,0 +1,10 @@
+Description:
+    This generator creates a migration to anonymize a model's fields.
+    If the generator is used to generate migration for a model with field "name",
+    it will create a migration to create a new field "anonymized_name"
+
+Example:
+    bin/rails generate anonymize Model field1 field2
+
+    This will create:
+        db/migrate/20160101000000_anonymize_model.rb
