@@ -5,6 +5,8 @@ require "generators/anonymize/anonymize_generator"
 
 module ActiveRecordAnonymizer
   class AnonymizeGeneratorTest < Rails::Generators::TestCase
+    class InvalidModel < ActiveRecord::Base; end
+
     tests AnonymizeGenerator
 
     destination File.expand_path("../tmp", File.dirname(__FILE__))
@@ -22,6 +24,11 @@ module ActiveRecordAnonymizer
 
     test "generator does not create a migration if arguments are missing" do
       assert_no_migration "db/migrate/anonymize_generator_test_models.rb"
+    end
+
+    test "generator does not create a migration if model is invalid" do
+      assert_no_migration "db/migrate/anonymize_generator_test_models.rb"
+      run_generator %w[InvalidModel first_name]
     end
 
     test "generator runs without errors if arguments are valid" do

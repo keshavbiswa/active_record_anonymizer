@@ -9,6 +9,7 @@ module ActiveRecordAnonymizer
 
     class InvalidModelName < Thor::Error; end
     class InvalidArguments < Thor::Error; end
+    class InvalidModel < Thor::Error; end
 
     source_root File.expand_path("templates", __dir__)
 
@@ -35,7 +36,12 @@ module ActiveRecordAnonymizer
     end
 
     def model
-      class_name.safe_constantize
+      klass = class_name.safe_constantize
+      if klass.respond_to?(:connection) && klass.connection.table_exists?(klass.table_name)
+        klass
+      else
+        raise InvalidModel, "#{class_name} is not a valid ActiveRecord model with a corresponding table"
+      end
     end
 
     def migration_version
