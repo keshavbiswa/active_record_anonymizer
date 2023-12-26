@@ -19,9 +19,22 @@ module ActiveRecordAnonymizer
       validate_model_name
       validate_arguments
       migration_template "migration.rb.erb", "db/migrate/anonymize_#{table_name}.rb"
+      output_instructions
     end
 
     private
+
+    def output_instructions
+      log "\n\n"
+      log "Add the following to your model file:"
+      log "\n"
+      log anonymize_method_string
+      log "\n"
+    end
+
+    def anonymize_method_string
+      "  anonymize :#{attributes.map(&:name).join(', :')}\n"
+    end
 
     def validate_model_name
       raise InvalidModelName, "Invalid model name" unless model

@@ -10,7 +10,23 @@ module ActiveRecordAnonymizer
     tests AnonymizeGenerator
 
     destination File.expand_path("../tmp", File.dirname(__FILE__))
-    setup :prepare_destination
+    setup :prepare_destination, :create_dummy_model
+
+    teardown do
+      FileUtils.rm_rf(destination_root)
+    end
+
+    def create_dummy_model
+      model_dir = File.join(destination_root, "app", "models")
+      FileUtils.mkdir_p(model_dir)
+      FileUtils.touch(File.join(model_dir, "generator_test_model.rb"))
+      File.open(File.join(model_dir, "generator_test_model.rb"), "w") do |f|
+        f.puts <<~RUBY
+          class GeneratorTestModel < ApplicationRecord
+          end
+        RUBY
+      end
+    end
 
     test "generator does not create a migration if invalid model name is provided" do
       run_generator %w[InvalidModelName first_name]
