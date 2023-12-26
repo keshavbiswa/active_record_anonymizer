@@ -64,10 +64,6 @@ module ActiveRecordAnonymizer
           assert_match(/remove_column :generator_test_models, :anonymized_birth_date/, down)
         end
       end
-
-      assert_file "app/models/generator_test_model.rb" do |model|
-        assert_match(/anonymize :first_name, :last_name, :age, :birth_date/, model)
-      end
     end
   end
 end

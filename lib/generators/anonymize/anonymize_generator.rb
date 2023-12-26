@@ -19,16 +19,17 @@ module ActiveRecordAnonymizer
       validate_model_name
       validate_arguments
       migration_template "migration.rb.erb", "db/migrate/anonymize_#{table_name}.rb"
-      add_anonymize_method_to_model
+      output_instructions
     end
 
     private
 
-    def add_anonymize_method_to_model
-      model_file_path = File.join("app", "models", "#{file_name}.rb")
-      if File.exist?(model_file_path)
-        inject_into_class(model_file_path, class_name, anonymize_method_string)
-      end
+    def output_instructions
+      log "\n\n"
+      log "Add the following to your model file:"
+      log "\n"
+      log anonymize_method_string
+      log "\n"
     end
 
     def anonymize_method_string
