@@ -17,6 +17,14 @@ module ActiveRecordAnonymizer
   class << self
     attr_reader :loader
 
+    def configure
+      yield configuration if block_given?
+    end
+
+    def configuration
+      @configuration ||= Configuration.new
+    end
+
     def eager_load!
       loader.eager_load
     end
