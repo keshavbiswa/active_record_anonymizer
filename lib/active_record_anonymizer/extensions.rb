@@ -17,15 +17,7 @@ module ActiveRecordAnonymizer
       def anonymize(*attributes, with: nil, column_name: nil)
         anonymizer = Anonymizer.new(self, attributes, with: with, column_name: column_name)
         anonymizer.validate
-
-        attributes.each do |attribute|
-          anonymized_attr = column_name || "anonymized_#{attribute}"
-          anonymized_attributes[attribute.to_sym] = { column: anonymized_attr.to_sym, with: with }
-
-          define_method(attribute) do
-            read_attribute(anonymized_attr)
-          end
-        end
+        anonymizer.anonymize_attributes
       end
     end
 
