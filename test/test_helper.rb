@@ -7,4 +7,7 @@ require "rails/test_help"
 require "mocha/minitest"
 require "pry"
 
-ActiveRecordAnonymizer.configuration.environments = %i[test]
+ActiveRecordAnonymizer.configure do |config|
+  config.environments = %i[test]
+  config.skip_update = false
+end
