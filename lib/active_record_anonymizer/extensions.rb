@@ -32,6 +32,8 @@ module ActiveRecordAnonymizer
         anonymize_all_attributes
       else
         # For existing records, only apply to attributes that have changed
+        return if ActiveRecordAnonymizer.configuration.skip_update
+
         anonymize_changed_attributes
       end
     end

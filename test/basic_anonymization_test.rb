@@ -43,4 +43,18 @@ class BasicAnonymizationTest < ActiveSupport::TestCase
     assert_equal "Updated Anonymized", @user.email
     assert_equal "Anonymized", @user.last_name
   end
+
+  test "Does not update the anonymized_value with fake data upon update if skip_update is true" do
+    ActiveRecordAnonymizer.configuration.skip_update = true
+    Faker::Lorem.stubs(:word).returns("Anonymized")
+    @user.save!
+
+    Faker::Lorem.stubs(:word).returns("Updated Anonymized")
+    @user.update!(first_name: "Jane", email: "updated_test@example.com")
+
+    assert_equal "Anonymized", @user.first_name
+    assert_equal "Anonymized", @user.email
+    assert_equal "Anonymized", @user.last_name
+    ActiveRecordAnonymizer.configuration.skip_update = false
+  end
 end

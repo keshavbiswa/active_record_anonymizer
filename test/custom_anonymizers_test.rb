@@ -4,7 +4,8 @@ require "test_helper"
 
 class CustomAnonymizersTest < ActiveSupport::TestCase
   setup do
-    @user = UserWithCustomAnonymize.new(first_name: "John", last_name: "Doe", email: "test@example.com")
+    @user_class = Class.new(UserWithCustomAnonymize)
+    @user = @user_class.new(first_name: "John", last_name: "Doe", email: "test@example.com")
   end
 
   test "anonymize returns blank if there is no value" do
@@ -33,7 +34,7 @@ class CustomAnonymizersTest < ActiveSupport::TestCase
     assert_equal "Anonymous@example.com", @user.email
   end
 
-  test "Updates the anonymized value with custom data upon update" do
+  test "Updates the anonymized value with custom data upon update if skip_update is false" do
     Faker::Name.stubs(:male_first_name).returns("Anonymous")
     Faker::Name.stubs(:male_last_name).returns("Person")
     @user.save!
@@ -44,5 +45,22 @@ class CustomAnonymizersTest < ActiveSupport::TestCase
     assert_equal "UpdatedAnonymous", @user.first_name
     assert_equal "UpdatedAnonymous@example.com", @user.email
     assert_equal "Person", @user.last_name
+  end
+
+  test "Doesn't update the anonymized value with custom data upon update if skip_update is true" do
+    ActiveRecordAnonymizer.configuration.skip_update = true
+
+    Faker::Name.stubs(:male_first_name).returns("Anonymous")
+    Faker::Name.stubs(:male_last_name).returns("Person")
+    @user.save!
+
+    Faker::Name.stubs(:male_first_name).returns("UpdatedAnonymous")
+    @user.update!(first_name: "Jane", email: "updated_test@example.com")
+
+    assert_equal "Anonymous", @user.first_name
+    assert_equal "Anonymous@example.com", @user.email
+    assert_equal "Person", @user.last_name
+
+    ActiveRecordAnonymizer.configuration.skip_update = false
   end
 end

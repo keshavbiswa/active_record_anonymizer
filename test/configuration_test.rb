@@ -26,12 +26,4 @@ class ConfigurationTest < ActiveSupport::TestCase
 
     assert_equal %i[staging test], ActiveRecordAnonymizer.configuration.environments
   end
-
-  test "custom skip_update" do
-    ActiveRecordAnonymizer.configure do |config|
-      config.skip_update = true
-    end
-
-    assert_equal true, ActiveRecordAnonymizer.configuration.skip_update
-  end
 end
