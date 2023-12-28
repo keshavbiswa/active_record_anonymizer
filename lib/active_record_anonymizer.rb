@@ -28,6 +28,10 @@ module ActiveRecordAnonymizer
     def eager_load!
       loader.eager_load
     end
+
+    def anonymization_enabled?
+      configuration.environments.include?(Rails.env.to_sym)
+    end
   end
 end
 

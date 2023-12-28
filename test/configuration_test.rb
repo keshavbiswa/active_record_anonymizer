@@ -7,6 +7,10 @@ class ConfigurationTest < ActiveSupport::TestCase
     ActiveRecordAnonymizer.configuration.reset
   end
 
+  teardown do
+    ActiveRecordAnonymizer.configuration.environments = %i[test]
+  end
+
   test "default environments" do
     assert_equal %i[staging], ActiveRecordAnonymizer.configuration.environments
   end

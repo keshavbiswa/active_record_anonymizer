@@ -9,8 +9,7 @@ module ActiveRecordAnonymizer
     included do
       class_attribute :anonymized_attributes
       self.anonymized_attributes = {}
-
-      before_save :anonymize_columns
+      before_save :anonymize_columns, if: :anonymization_enabled?
     end
 
     class_methods do
@@ -22,6 +21,10 @@ module ActiveRecordAnonymizer
     end
 
     private
+
+    def anonymization_enabled?
+      ActiveRecordAnonymizer.anonymization_enabled?
+    end
 
     def anonymize_columns
       if new_record?

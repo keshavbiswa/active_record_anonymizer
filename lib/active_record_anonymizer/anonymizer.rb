@@ -64,7 +64,7 @@ module ActiveRecordAnonymizer
     # If column_name is provided, it will be used instead of "anonymized_#{attribute}"
     def define_anonymize_method(attribute, anonymized_attr)
       model.define_method(attribute) do
-        self[anonymized_attr]
+        ActiveRecordAnonymizer.anonymization_enabled? ? self[anonymized_attr] : self[attribute]
       end
     end
   end

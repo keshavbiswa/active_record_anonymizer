@@ -6,3 +6,5 @@ require File.expand_path("dummy/config/environment", __dir__)
 require "rails/test_help"
 require "mocha/minitest"
 require "pry"
+
+ActiveRecordAnonymizer.configuration.environments = %i[test]
