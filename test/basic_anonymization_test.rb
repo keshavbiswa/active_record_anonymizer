@@ -4,7 +4,8 @@ require "test_helper"
 
 class BasicAnonymizationTest < ActiveSupport::TestCase
   setup do
-    @user = User.new(first_name: "John", last_name: "Doe", email: "test@example.com")
+    @user_klass = Class.new(User)
+    @user = @user_klass.new(first_name: "John", last_name: "Doe", email: "test@example.com")
   end
 
   test "anonymize returns blank if there is no value" do

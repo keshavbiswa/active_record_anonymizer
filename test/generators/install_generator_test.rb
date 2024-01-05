@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require "generators/anonymize/install_generator"
+require "generators/active_record_anonymizer/install_generator"
 
 module ActiveRecordAnonymizer
   class InstallGeneratorTest < Rails::Generators::TestCase
