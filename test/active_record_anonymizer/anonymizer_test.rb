@@ -20,7 +20,8 @@ class ActiveRecordAnonymizer::AnonymizerTest < ActiveSupport::TestCase
 
     expected_message = <<~ERROR_MESSAGE.strip
       Following columns do not have anonymized_columns: first_name, last_name, email.
-      You can generate them by running `rails g anonymize UserWithoutAnonymizedColumn first_name last_name email`
+      You can generate them by running
+      `rails g active_record_anonymizer:anonymize UserWithoutAnonymizedColumn first_name last_name email`
     ERROR_MESSAGE
 
     assert_equal expected_message, error.message

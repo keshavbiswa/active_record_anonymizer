@@ -7,6 +7,7 @@ module ActiveRecordAnonymizer
     extend ActiveSupport::Concern
 
     included do
+      ActiveRecordAnonymizer.register_model(self)
       class_attribute :anonymized_attributes
       self.anonymized_attributes = {}
       before_save :anonymize_columns, if: :anonymization_enabled?

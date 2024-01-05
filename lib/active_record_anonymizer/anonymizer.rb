@@ -40,7 +40,8 @@ module ActiveRecordAnonymizer
       if missing_columns.any?
         raise ColumnNotFoundError, <<~ERROR_MESSAGE.strip
           Following columns do not have anonymized_columns: #{missing_columns.join(', ')}.
-          You can generate them by running `rails g anonymize #{model.name} #{missing_columns.join(' ')}`
+          You can generate them by running
+          `rails g active_record_anonymizer:anonymize #{model.name} #{missing_columns.join(' ')}`
         ERROR_MESSAGE
       end
     end

@@ -17,6 +17,15 @@ module ActiveRecordAnonymizer
   class << self
     attr_reader :loader
 
+    def register_model(model)
+      @models ||= []
+      @models << model unless @models.include?(model)
+    end
+
+    def models
+      @models || []
+    end
+
     def configure
       yield configuration if block_given?
     end
@@ -31,6 +40,17 @@ module ActiveRecordAnonymizer
 
     def anonymization_enabled?
       configuration.environments.include?(Rails.env.to_sym)
+    end
+
+    def load_model(klass_name)
+      model = klass_name.safe_constantize
+      raise Error, "Could not find class: #{klass_name}" unless model
+
+      unless ActiveRecordAnonymizer.models.include?(model)
+        raise Error, "#{klass_name} is not an anonymized model"
+      end
+
+      model
     end
   end
 end
