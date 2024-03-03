@@ -7,7 +7,15 @@ module ActiveRecordAnonymizer
     extend ActiveSupport::Concern
 
     class_methods do
+      def ensure_mutex_initialized
+        unless defined?(@setup_mutex)
+          @setup_mutex = Mutex.new
+        end
+      end
+
       def anonymize(*attributes, with: nil, column_name: nil)
+        ensure_mutex_initialized
+
         ActiveRecordAnonymizer.register_model(self)
 
         # These class variables required to generate anonymized values
@@ -21,10 +29,11 @@ module ActiveRecordAnonymizer
 
         # I'm ensuring that the before_save callback is only added once
         # Models can call anonymize method multiple times per column
-        # This is also not thread safe?
-        unless @anonymizer_setup_done
-          before_save :anonymize_columns, if: :anonymization_enabled?
-          @anonymizer_setup_done = true
+        @setup_mutex.synchronize do
+          unless @anonymizer_setup_done
+            before_save :anonymize_columns, if: :anonymization_enabled?
+            @anonymizer_setup_done = true
+          end
         end
       end
     end

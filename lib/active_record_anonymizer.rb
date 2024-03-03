@@ -5,6 +5,8 @@ require "zeitwerk"
 require "faker"
 
 module ActiveRecordAnonymizer
+  @mutex = Mutex.new
+
   @loader = Zeitwerk::Loader.for_gem
   @loader.ignore("#{__dir__}/generators")
   @loader.setup
@@ -18,20 +20,26 @@ module ActiveRecordAnonymizer
     attr_reader :loader
 
     def register_model(model)
-      @models ||= []
-      @models << model unless @models.include?(model)
+      @mutex.synchronize do
+        @models ||= []
+        @models << model unless @models.include?(model)
+      end
     end
 
     def models
-      @models || []
+      @mutex.synchronize do
+        @models ||= []
+      end
     end
 
     def configure
-      yield configuration if block_given?
+      @mutex.synchronize do
+        yield configuration if block_given?
+      end
     end
 
     def configuration
-      @configuration ||= Configuration.new
+      Thread.current[:active_record_anonymizer_configuration] ||= Configuration.new
     end
 
     def eager_load!
@@ -39,14 +47,16 @@ module ActiveRecordAnonymizer
     end
 
     def anonymization_enabled?
-      configuration.environments.include?(Rails.env.to_sym)
+      @mutex.synchronize do
+        configuration.environments.include?(Rails.env.to_sym)
+      end
     end
 
     def load_model(klass_name)
       model = klass_name.safe_constantize
       raise Error, "Could not find class: #{klass_name}" unless model
 
-      unless ActiveRecordAnonymizer.models.include?(model)
+      unless models.include?(model)
         raise Error, "#{klass_name} is not an anonymized model"
       end
 
