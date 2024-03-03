@@ -6,18 +6,26 @@ module ActiveRecordAnonymizer
   module Extensions
     extend ActiveSupport::Concern
 
-    included do
-      ActiveRecordAnonymizer.register_model(self)
-      class_attribute :anonymized_attributes
-      self.anonymized_attributes = {}
-      before_save :anonymize_columns, if: :anonymization_enabled?
-    end
-
     class_methods do
       def anonymize(*attributes, with: nil, column_name: nil)
+        ActiveRecordAnonymizer.register_model(self)
+
+        # These class variables required to generate anonymized values
+        # These are not thread safe!
+        cattr_accessor :anonymized_attributes, instance_accessor: false unless respond_to?(:anonymized_attributes)
+        self.anonymized_attributes ||= {}
+
         anonymizer = Anonymizer.new(self, attributes, with: with, column_name: column_name)
         anonymizer.validate
         anonymizer.anonymize_attributes
+
+        # I'm ensuring that the before_save callback is only added once
+        # Models can call anonymize method multiple times per column
+        # This is also not thread safe?
+        unless @anonymizer_setup_done
+          before_save :anonymize_columns, if: :anonymization_enabled?
+          @anonymizer_setup_done = true
+        end
       end
     end
 
@@ -40,17 +48,17 @@ module ActiveRecordAnonymizer
     end
 
     def anonymize_all_attributes
-      anonymized_attributes.each_value do |settings|
+      self.class.anonymized_attributes.each_value do |settings|
         generate_and_write_fake_value(settings[:column], settings[:with])
       end
     end
 
     def anonymize_changed_attributes
       changes = self.changes.keys.map(&:to_sym)
-      changed_attributes = changes & anonymized_attributes.keys
+      changed_attributes = changes & self.class.anonymized_attributes.keys
 
       changed_attributes.each do |attribute|
-        settings = anonymized_attributes[attribute]
+        settings = self.class.anonymized_attributes[attribute]
         generate_and_write_fake_value(settings[:column], settings[:with])
       end
     end
