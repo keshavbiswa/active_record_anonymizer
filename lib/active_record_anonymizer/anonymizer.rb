@@ -26,6 +26,7 @@ module ActiveRecordAnonymizer
         # TODO:- Will need to revisit how we set the class attribute later
         model.anonymized_attributes[attribute.to_sym] = { column: anonymized_column.to_sym, with: with }
 
+        define_alias_method(attribute, ActiveRecordAnonymizer.configuration.alias_column_name) if ActiveRecordAnonymizer.alias_enabled?
         define_anonymize_method(attribute, anonymized_column)
       end
     end
@@ -66,6 +67,12 @@ module ActiveRecordAnonymizer
     def define_anonymize_method(attribute, anonymized_attr)
       model.define_method(attribute) do
         ActiveRecordAnonymizer.anonymization_enabled? ? self[anonymized_attr] : self[attribute]
+      end
+    end
+
+    def define_alias_method(attribute, alias_column_name)
+      model.define_method("#{alias_column_name}_#{attribute}") do
+        self[attribute]
       end
     end
   end

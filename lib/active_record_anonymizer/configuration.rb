@@ -2,11 +2,13 @@
 
 module ActiveRecordAnonymizer
   class Configuration
-    attr_accessor :environments, :skip_update
+    attr_accessor :environments, :skip_update, :alias_original_columns, :alias_column_name
 
     def initialize
       @environments = %i[staging]
       @skip_update = false
+      @alias_original_columns = false
+      @alias_column_name = "original"
     end
 
     # Reset all configuration options to defaults.

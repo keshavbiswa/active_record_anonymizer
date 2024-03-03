@@ -4,8 +4,7 @@ require_relative "../test/test_helper"
 
 class CustomAnonymizersTest < ActiveSupport::TestCase
   setup do
-    @user_class = Class.new(UserWithCustomAnonymize)
-    @user = @user_class.new(first_name: "John", last_name: "Doe", email: "test@example.com")
+    @user = UserWithCustomAnonymize.new(first_name: "John", last_name: "Doe", email: "test@example.com")
   end
 
   test "anonymize returns blank if there is no value" do
@@ -60,5 +59,9 @@ class CustomAnonymizersTest < ActiveSupport::TestCase
     assert_equal "Anonymous", @user.first_name
     assert_equal "Anonymous@example.com", @user.email
     assert_equal "Person", @user.last_name
+  end
+
+  test "multiple anonymize calls doesn't add multiple before_save callbacks" do
+    assert_equal 1, UserWithCustomAnonymize._save_callbacks.select { |cb| cb.kind.eql?(:before) }.size
   end
 end
