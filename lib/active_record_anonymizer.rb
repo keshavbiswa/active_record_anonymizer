@@ -52,6 +52,12 @@ module ActiveRecordAnonymizer
       end
     end
 
+    def alias_enabled?
+      @mutex.synchronize do
+        configuration.alias_original_columns
+      end
+    end
+
     def load_model(klass_name)
       model = klass_name.safe_constantize
       raise Error, "Could not find class: #{klass_name}" unless model
