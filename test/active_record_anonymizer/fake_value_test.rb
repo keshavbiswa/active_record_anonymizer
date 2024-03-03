@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "../test_helper"
+
 class ActiveRecordAnonymizer::FakeValueTest < ActiveSupport::TestCase
   setup do
     @name = "name"

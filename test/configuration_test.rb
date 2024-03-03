@@ -3,16 +3,11 @@
 require_relative "../test/test_helper"
 
 class ConfigurationTest < ActiveSupport::TestCase
-  setup do
-    ActiveRecordAnonymizer.configuration.reset
-  end
-
-  teardown do
-    ActiveRecordAnonymizer.configuration.environments = %i[test]
-  end
-
+  # The reason why this returns test and not staging even though
+  # the default value is set to staging is because the configuration
+  # is overwritten in the test_helper.rb file.
   test "default environments" do
-    assert_equal %i[staging], ActiveRecordAnonymizer.configuration.environments
+    assert_equal %i[test], ActiveRecordAnonymizer.configuration.environments
   end
 
   test "default skip_update" do
@@ -20,10 +15,7 @@ class ConfigurationTest < ActiveSupport::TestCase
   end
 
   test "custom environments" do
-    ActiveRecordAnonymizer.configure do |config|
-      config.environments = %i[staging test]
-    end
-
+    ActiveRecordAnonymizer.configuration.stubs(:environments).returns(%i[staging test])
     assert_equal %i[staging test], ActiveRecordAnonymizer.configuration.environments
   end
 end

@@ -4,12 +4,8 @@ require_relative "../test/test_helper"
 
 class EnvironmentCheckTest < ActiveSupport::TestCase
   setup do
-    ActiveRecordAnonymizer.configuration.reset
     @user_class = Class.new(User)
-  end
-
-  teardown do
-    ActiveRecordAnonymizer.configuration.environments = %i[test]
+    ActiveRecordAnonymizer.configuration.stubs(:environments).returns(%i[staging])
   end
 
   test "Does not return the anonymized value if anonymization is disabled" do

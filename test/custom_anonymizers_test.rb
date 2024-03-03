@@ -48,7 +48,7 @@ class CustomAnonymizersTest < ActiveSupport::TestCase
   end
 
   test "Doesn't update the anonymized value with custom data upon update if skip_update is true" do
-    ActiveRecordAnonymizer.configuration.skip_update = true
+    ActiveRecordAnonymizer.configuration.stubs(:skip_update).returns(true)
 
     Faker::Name.stubs(:male_first_name).returns("Anonymous")
     Faker::Name.stubs(:male_last_name).returns("Person")
@@ -60,7 +60,5 @@ class CustomAnonymizersTest < ActiveSupport::TestCase
     assert_equal "Anonymous", @user.first_name
     assert_equal "Anonymous@example.com", @user.email
     assert_equal "Person", @user.last_name
-
-    ActiveRecordAnonymizer.configuration.skip_update = false
   end
 end
