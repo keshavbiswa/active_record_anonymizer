@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "test_helper"
+require_relative "../../test/test_helper"
 require "generators/active_record_anonymizer/install_generator"
 
 module ActiveRecordAnonymizer

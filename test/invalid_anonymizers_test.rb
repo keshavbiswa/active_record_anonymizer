@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "test_helper"
+require_relative "../test/test_helper"
 
 class InvalidAnonymizersTest < ActiveSupport::TestCase
   test "raises ColumnNotFoundError if anonymized_columns are not generated" do

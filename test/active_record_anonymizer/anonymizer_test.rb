@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "test_helper"
+require_relative "../../test/test_helper"
 
 class ActiveRecordAnonymizer::AnonymizerTest < ActiveSupport::TestCase
   # Two things are required for this tests to work accurately
