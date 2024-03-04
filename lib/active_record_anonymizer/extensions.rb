@@ -13,8 +13,13 @@ module ActiveRecordAnonymizer
         end
       end
 
-      def anonymize(*attributes, with: nil, column_name: nil)
+      def anonymize(*attributes, with: nil, column_name: nil, encrypted: false)
         ensure_mutex_initialized
+
+        if encrypted && !rails_version_supported?
+          raise ActiveRecordAnonymizer::UnsupportedVersionError,
+                "ActiveRecordAnonymizer relies on Rails 7+ for encrypted columns."
+        end
 
         ActiveRecordAnonymizer.register_model(self)
 
@@ -36,9 +41,13 @@ module ActiveRecordAnonymizer
           end
         end
       end
-    end
 
-    private
+      private
+
+      def rails_version_supported?
+        ActiveRecord::VERSION::MAJOR >= 7 && ActiveRecord::VERSION::MINOR >= 0
+      end
+    end
 
     def anonymization_enabled?
       ActiveRecordAnonymizer.anonymization_enabled?
