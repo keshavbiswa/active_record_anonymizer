@@ -15,6 +15,7 @@ module ActiveRecordAnonymizer
   class ColumnNotFoundError < StandardError; end
   class InvalidArgumentsError < StandardError; end
   class UnknownColumnTypeError < StandardError; end
+  class UnsupportedVersionError < StandardError; end
 
   class << self
     attr_reader :loader

@@ -13,8 +13,9 @@ module ActiveRecordAnonymizer
         end
       end
 
-      def anonymize(*attributes, with: nil, column_name: nil)
+      def anonymize(*attributes, with: nil, column_name: nil, encrypted: false)
         ensure_mutex_initialized
+        Encryptor.new(self, attributes).encrypt if encrypted
 
         ActiveRecordAnonymizer.register_model(self)
 
@@ -37,8 +38,6 @@ module ActiveRecordAnonymizer
         end
       end
     end
-
-    private
 
     def anonymization_enabled?
       ActiveRecordAnonymizer.anonymization_enabled?
