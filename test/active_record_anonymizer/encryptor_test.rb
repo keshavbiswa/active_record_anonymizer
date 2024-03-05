@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "../test/test_helper"
+require_relative "../../test/test_helper"
 
-class EncryptorTest < ActiveSupport::TestCase
+class ActiveRecordAnonymizer::EncryptorTest < ActiveSupport::TestCase
   setup do
     @encryptor = ActiveRecordAnonymizer::Encryptor.new(UserWithoutAnonymizeMethod, %i[first_name last_name email])
   end
