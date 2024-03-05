@@ -23,7 +23,8 @@ class ActiveRecordAnonymizer::AnonymizerTest < ActiveSupport::TestCase
 
   test "#validate raises InvalidArgumentsError error if with and column_names are provided for attributes more than one" do
     error = assert_raises ActiveRecordAnonymizer::InvalidArgumentsError do
-      @anonymizer = ActiveRecordAnonymizer::Anonymizer.new(UserWithoutAnonymizeMethod, %i[first_name last_name email], with: "John Doe", column_name: "John Doe")
+      @anonymizer = ActiveRecordAnonymizer::Anonymizer.new(UserWithoutAnonymizeMethod, %i[first_name last_name email], with: "John Doe",
+                                                                                                                       column_name: "John Doe")
       @anonymizer.validate
     end
 
