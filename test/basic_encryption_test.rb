@@ -5,6 +5,7 @@ require_relative "../test/test_helper"
 class BasicEncryptionTest < ActiveSupport::TestCase
   setup do
     Faker::Lorem.stubs(:word).returns("anonymized_word")
+    ActiveRecordAnonymizer.configuration.stubs(:alias_original_columns).returns(true)
   end
   test "Encrypts columns" do
     user = EncryptedUser.new(first_name: "John", last_name: "Doe", email: "test@example.com")
@@ -20,8 +21,6 @@ class BasicEncryptionTest < ActiveSupport::TestCase
   end
 
   test "Encrypted column works with alias" do
-    ActiveRecordAnonymizer.configuration.stubs(:alias_original_columns).returns(true)
-
     user = EncryptedUser.new(first_name: "John", last_name: "Doe", email: "test@example.com")
     user.save!
 
