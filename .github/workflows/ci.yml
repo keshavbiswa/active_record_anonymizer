@@ -39,7 +39,7 @@ jobs:
 
     - name: Setup DB
       run: |
-        cd spec/dummy
+        cd test/dummy
         bundle exec rake db:create db:migrate
       env:
         RAILS_ENV: test
