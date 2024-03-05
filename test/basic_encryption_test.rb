@@ -7,6 +7,7 @@ class BasicEncryptionTest < ActiveSupport::TestCase
     Faker::Lorem.stubs(:word).returns("anonymized_word")
     ActiveRecordAnonymizer.configuration.stubs(:alias_original_columns).returns(true)
   end
+
   test "Encrypts columns" do
     user = EncryptedUser.new(first_name: "John", last_name: "Doe", email: "test@example.com")
     user.save!
