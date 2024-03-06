@@ -104,7 +104,6 @@ After checking out the repo, run `bin/setup` to install dependencies.
 
 Bug reports are welcome on GitHub at https://github.com/keshavbiswa/active_record_anonymizer/issues.
 
-### Getting Started
 - Fork the Repository: Start by forking this [repo](https://github.com/keshavbiswa/active_record_anonymizer.git) on GitHub.
 
 - Set Up Your Local Environment: Navigate into the project directory and run the setup script to install dependencies:
