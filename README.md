@@ -58,6 +58,8 @@ To populate the anonymized columns, run the following command:
 
     $ bin/rails anonymize:populate CLASS=User
 
+The `CLASS` argument is optional, if not provided, it will anonymize all the models with anonymized columns.
+
 ## Usage
 
 Attributes can be anonymized using the `anonymize` method. The `anonymize` method takes the following options:
