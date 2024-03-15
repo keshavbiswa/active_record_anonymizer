@@ -34,7 +34,7 @@ Install the gem using the following command:
 You must have anonymized columns in your Model to store the anonymized data.
 You can use the following migration generator to add anonymized columns to your existing table:
 
-    $ bin/rails generate anonymize User first_name last_name
+    $ bin/rails generate active_record_anonymizer:anonymize User first_name last_name
 This will generate a migration file similar to the following:
 
 ```ruby
