@@ -38,7 +38,9 @@ module ActiveRecordAnonymizer
     end
 
     def migration_version
-      "[#{Rails::VERSION::MAJOR}.#{Rails::VERSION::MINOR}]" if Rails.version.start_with? "5"
+      if Gem::Version.new(Rails.version) >= Gem::Version.new("5.0.0")
+        "[#{Rails::VERSION::MAJOR}.#{Rails::VERSION::MINOR}]"
+      end
     end
   end
 end
