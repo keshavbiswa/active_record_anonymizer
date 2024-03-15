@@ -32,7 +32,7 @@ module ActiveRecordAnonymizer
         # Models can call anonymize method multiple times per column
         @setup_mutex.synchronize do
           unless @anonymizer_setup_done
-            before_save :anonymize_columns, if: :anonymization_enabled?
+            before_validation :anonymize_columns, if: :anonymization_enabled?
             @anonymizer_setup_done = true
           end
         end

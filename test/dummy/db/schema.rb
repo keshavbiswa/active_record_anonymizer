@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_04_191903) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_15_144856) do
   create_table "encrypted_users", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -84,6 +84,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_191903) do
     t.string "anonymized_first_name", default: ""
     t.string "anonymized_last_name", default: ""
     t.string "anonymized_email", default: ""
+  end
+
+  create_table "validated_users", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.string "anonymized_first_name", default: ""
+    t.string "anonymized_last_name", default: ""
+    t.string "anonymized_email", default: ""
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
