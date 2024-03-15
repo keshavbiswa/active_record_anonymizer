@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class <%= migration_class_name %> < ActiveRecord::Migration<%= migration_version %>
+class <%= migration_class_name %> < ActiveRecord::Migration<%= migration_number %>
   def self.up
 <% attributes.each do |column| -%>
     add_column :<%= table_name %>, :<%= "anonymized_#{column.name}" %>, :<%= column.type %>, index: <%= column.has_index? %>, unique: <%= column.has_uniq_index? %>
