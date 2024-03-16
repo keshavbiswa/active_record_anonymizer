@@ -82,14 +82,14 @@ end
 
 You can configure the gem using the following options:
 
-- `:environments` - The environments in which the anonymized data should be used. (Defaults to `[:staging]`)
+- `:environments` - The environments in which the anonymized data should be used. (Defaults to `[:development]`)
 - `:skip_update` - Skip updating the anonymized data when the record is updated. This ensures your anonymized data remains the same even if it's updated. (Defaults to `false`)
 - `:alias_original_columns` - Alias the original columns to the anonymized columns. You can still access the original value of the attribute using the alias `original_#{attribute_name}`(Defaults to `false`)
 - `:alias_column_name` - The name of the alias column. (Defaults to `original_#{column_name}`)
 
 ```ruby
 ActiveRecordAnonymizer.configure do |config|
-  config.environments = [:staging, :production] # The environments in which the anonymized data should be used
+  config.environments = [:development, :staging] # The environments in which the anonymized data should be used
   config.skip_update = true # Skip updating the anonymized data when the record is updated
   config.alias_original_columns = true # Alias the original columns to the anonymized columns
   config.alias_column_name = "original" # The original column will be aliased to "original_#{column_name}
