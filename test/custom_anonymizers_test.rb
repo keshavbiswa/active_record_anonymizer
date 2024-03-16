@@ -62,6 +62,6 @@ class CustomAnonymizersTest < ActiveSupport::TestCase
   end
 
   test "multiple anonymize calls doesn't add multiple before_validation callbacks" do
-    assert_equal 1, UserWithCustomAnonymize._validation_callbacks.select { |c| c.kind == :before && c.filter == :anonymize_columns }.size
+    assert_equal 1, UserWithCustomAnonymize._validation_callbacks.select { |c| c.kind == :before && c.filter == :anonymizer_anonymize_columns }.size
   end
 end

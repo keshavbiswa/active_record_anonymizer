@@ -32,47 +32,21 @@ module ActiveRecordAnonymizer
         # Models can call anonymize method multiple times per column
         @setup_mutex.synchronize do
           unless @anonymizer_setup_done
-            before_validation :anonymize_columns, if: :anonymization_enabled?
+            before_validation :anonymizer_anonymize_columns, if: :anonymizer_anonymization_enabled?
             @anonymizer_setup_done = true
           end
         end
       end
     end
 
-    def anonymization_enabled?
+    # Deliberately using anonymizer_ prefix to avoid conflicts
+    def anonymizer_anonymization_enabled?
       ActiveRecordAnonymizer.anonymization_enabled?
     end
 
-    def anonymize_columns
+    # Deliberately using anonymizer_ prefix to avoid conflicts
+    def anonymizer_anonymize_columns
       AttributesAnonymizer.new(self, skip_update: ActiveRecordAnonymizer.configuration.skip_update).anonymize_columns
-    end
-
-    def anonymize_all_attributes
-      self.class.anonymized_attributes.each_value do |settings|
-        generate_and_write_fake_value(settings[:column], settings[:with])
-      end
-    end
-
-    def anonymize_changed_attributes
-      changes = self.changes.keys.map(&:to_sym)
-      changed_attributes = changes & self.class.anonymized_attributes.keys
-
-      changed_attributes.each do |attribute|
-        settings = self.class.anonymized_attributes[attribute]
-        generate_and_write_fake_value(settings[:column], settings[:with])
-      end
-    end
-
-    def generate_and_write_fake_value(anonymized_attr, with_strategy = nil)
-      fake_value = case with_strategy
-                   when Proc
-                     with_strategy.call(self)
-                   when Symbol
-                     send(with_strategy)
-                   else
-                     FakeValue.new(anonymized_attr, self.class.columns_hash[anonymized_attr.to_s]).generate_fake_value
-                   end
-      write_attribute(anonymized_attr, fake_value)
     end
   end
 end
