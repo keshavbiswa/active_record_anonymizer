@@ -40,7 +40,7 @@ module ActiveRecordAnonymizer
     end
 
     def configuration
-      Thread.current[:active_record_anonymizer_configuration] ||= Configuration.new
+      @configuration ||= Configuration.new
     end
 
     def eager_load!
