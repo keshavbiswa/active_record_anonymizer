@@ -5,7 +5,7 @@ module ActiveRecordAnonymizer
     attr_accessor :environments, :skip_update, :alias_original_columns, :alias_column_name
 
     def initialize
-      @environments = %i[staging]
+      @environments = %i[development]
       @skip_update = false
       @alias_original_columns = false
       @alias_column_name = "original"
