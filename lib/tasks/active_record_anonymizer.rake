@@ -26,7 +26,7 @@ namespace :anonymizer do
     desc "populate anonymize columns for all models"
     task all: :environment do
       Rails.application.eager_load!
-      
+
       ActiveRecordAnonymizer.models.each do |model|
         puts "Anonymizing #{model.name}..."
         model.find_each do |record|
