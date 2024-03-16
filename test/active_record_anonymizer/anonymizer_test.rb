@@ -55,7 +55,7 @@ class ActiveRecordAnonymizer::AnonymizerTest < ActiveSupport::TestCase
       assert_equal "test@example.com", user.email
 
       anonymizer = ActiveRecordAnonymizer::Anonymizer.new(UserWithoutAnonymizeMethod, %i[email first_name last_name])
-      anonymizer.anonymize_attributes
+      anonymizer.configure_anonymization
 
       assert_equal "Anonymized First Name", user.first_name
       assert_equal "Anonymized Last Name", user.last_name

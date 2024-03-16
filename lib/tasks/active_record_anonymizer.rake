@@ -15,8 +15,6 @@ namespace :anonymizer do
         abort e.message
       end
 
-    puts "model: #{model}"
-
     puts "Anonymize columns for #{klass_name}..."
     model.all.each(&:save!)
     puts "Anonymize columns for #{klass_name} done!"

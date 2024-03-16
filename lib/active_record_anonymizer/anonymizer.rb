@@ -17,10 +17,10 @@ module ActiveRecordAnonymizer
       check_for_missing_anonymized_columns(attributes)
     end
 
-    def anonymize_attributes
+    def configure_anonymization
       attributes.each do |attribute|
         anonymized_column = anonymized_column_name(attribute)
-
+        
         # I don't like that we're manipulating the class attribute here
         # This breaks the SRP for this method
         # TODO:- Will need to revisit how we set the class attribute later
