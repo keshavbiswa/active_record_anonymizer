@@ -18,4 +18,3 @@ class ValidationTest < ActiveSupport::TestCase
     assert_equal "anonymized_word", user.email
   end
 end
-

@@ -24,7 +24,7 @@ class ActiveRecordAnonymizer::InitiatorTest < ActiveSupport::TestCase
   test "#validate raises InvalidArgumentsError error if with and column_names are provided for attributes more than one" do
     error = assert_raises ActiveRecordAnonymizer::InvalidArgumentsError do
       @anonymizer = ActiveRecordAnonymizer::Initiator.new(UserWithoutAnonymizeMethod, %i[first_name last_name email], with: "John Doe",
-                                                                                                                       column_name: "John Doe")
+                                                                                                                      column_name: "John Doe")
       @anonymizer.validate
     end
 
@@ -37,7 +37,7 @@ class ActiveRecordAnonymizer::InitiatorTest < ActiveSupport::TestCase
 
       assert_changes -> { user.first_name }, from: "John", to: "" do
         anonymizer = ActiveRecordAnonymizer::Initiator.new(UserWithoutAnonymizeMethod, %i[email first_name last_name])
-        anonymizer.configure_anonymization 
+        anonymizer.configure_anonymization
       end
     end
   end
