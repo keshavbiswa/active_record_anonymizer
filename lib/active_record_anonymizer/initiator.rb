@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ActiveRecordAnonymizer
-  class Anonymizer
+  class Initiator
     attr_reader :model, :attributes, :with, :column_name
 
     def initialize(model, attributes, with: nil, column_name: nil)

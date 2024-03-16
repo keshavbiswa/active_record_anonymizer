@@ -2,14 +2,14 @@
 
 require_relative "../../test/test_helper"
 
-class ActiveRecordAnonymizer::AnonymizerTest < ActiveSupport::TestCase
+class ActiveRecordAnonymizer::InitiatorTest < ActiveSupport::TestCase
   setup do
     UserWithoutAnonymizeMethod.stubs(:anonymized_attributes).returns({})
   end
 
   test "#validate raises ColumnNotFoundError if anonymized_columns are not generated" do
     error = assert_raises ActiveRecordAnonymizer::ColumnNotFoundError do
-      ActiveRecordAnonymizer::Anonymizer.new(UserWithoutAnonymizedColumn, %i[first_name last_name email]).validate
+      ActiveRecordAnonymizer::Initiator.new(UserWithoutAnonymizedColumn, %i[first_name last_name email]).validate
     end
 
     expected_message = <<~ERROR_MESSAGE.strip
@@ -23,7 +23,7 @@ class ActiveRecordAnonymizer::AnonymizerTest < ActiveSupport::TestCase
 
   test "#validate raises InvalidArgumentsError error if with and column_names are provided for attributes more than one" do
     error = assert_raises ActiveRecordAnonymizer::InvalidArgumentsError do
-      @anonymizer = ActiveRecordAnonymizer::Anonymizer.new(UserWithoutAnonymizeMethod, %i[first_name last_name email], with: "John Doe",
+      @anonymizer = ActiveRecordAnonymizer::Initiator.new(UserWithoutAnonymizeMethod, %i[first_name last_name email], with: "John Doe",
                                                                                                                        column_name: "John Doe")
       @anonymizer.validate
     end
@@ -32,18 +32,18 @@ class ActiveRecordAnonymizer::AnonymizerTest < ActiveSupport::TestCase
   end
 
   test "#configure_anonymization returns blank if attributes are empty" do
-    ActiveRecordAnonymizer::Anonymizer.any_instance.stubs(:define_anonymize_method).with do
+    ActiveRecordAnonymizer::Initiator.any_instance.stubs(:define_anonymize_method).with do
       user = UserWithoutAnonymizeMethod.new(email: "test@example.com", first_name: "John", last_name: "Doe")
 
       assert_changes -> { user.first_name }, from: "John", to: "" do
-        anonymizer = ActiveRecordAnonymizer::Anonymizer.new(UserWithoutAnonymizeMethod, %i[email first_name last_name])
+        anonymizer = ActiveRecordAnonymizer::Initiator.new(UserWithoutAnonymizeMethod, %i[email first_name last_name])
         anonymizer.configure_anonymization 
       end
     end
   end
 
   test "#configure_anonymization returns the anonymized value if there is a value" do
-    ActiveRecordAnonymizer::Anonymizer.any_instance.stubs(:define_anonymize_method).with do
+    ActiveRecordAnonymizer::Initiator.any_instance.stubs(:define_anonymize_method).with do
       user = UserWithoutAnonymizeMethod.new(email: "test@example.com", first_name: "John", last_name: "Doe")
 
       user.anonymized_first_name = "Anonymized First Name"
@@ -54,7 +54,7 @@ class ActiveRecordAnonymizer::AnonymizerTest < ActiveSupport::TestCase
       assert_equal "Doe", user.last_name
       assert_equal "test@example.com", user.email
 
-      anonymizer = ActiveRecordAnonymizer::Anonymizer.new(UserWithoutAnonymizeMethod, %i[email first_name last_name])
+      anonymizer = ActiveRecordAnonymizer::Initiator.new(UserWithoutAnonymizeMethod, %i[email first_name last_name])
       anonymizer.configure_anonymization
 
       assert_equal "Anonymized First Name", user.first_name

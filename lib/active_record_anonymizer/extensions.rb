@@ -24,9 +24,9 @@ module ActiveRecordAnonymizer
         cattr_accessor :anonymized_attributes, instance_accessor: false unless respond_to?(:anonymized_attributes)
         self.anonymized_attributes ||= {}
 
-        anonymizer = Anonymizer.new(self, attributes, with: with, column_name: column_name)
-        anonymizer.validate
-        anonymizer.configure_anonymization
+        initiator = Initiator.new(self, attributes, with: with, column_name: column_name)
+        initiator.validate
+        initiator.configure_anonymization
 
         # I'm ensuring that the before_save callback is only added once
         # Models can call anonymize method multiple times per column
