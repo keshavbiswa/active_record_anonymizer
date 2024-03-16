@@ -44,15 +44,7 @@ module ActiveRecordAnonymizer
     end
 
     def anonymize_columns
-      if new_record?
-        # For new records, apply anonymization to all attributes
-        anonymize_all_attributes
-      else
-        # For existing records, only apply to attributes that have changed
-        return if ActiveRecordAnonymizer.configuration.skip_update
-
-        anonymize_changed_attributes
-      end
+      AttributesAnonymizer.new(self, skip_update: ActiveRecordAnonymizer.configuration.skip_update).anonymize_columns
     end
 
     def anonymize_all_attributes
