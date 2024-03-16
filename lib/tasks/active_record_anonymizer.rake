@@ -16,7 +16,9 @@ namespace :anonymizer do
       end
 
     puts "Anonymize columns for #{klass_name}..."
-    model.each(&:save!)
+    model.find_each do |record|
+      ActiveRecordAnonymizer::AttributesAnonymizer.new(record).populate
+    end
     puts "Anonymize columns for #{klass_name} done!"
   end
 
@@ -25,7 +27,9 @@ namespace :anonymizer do
     task all: :environment do
       ActiveRecordAnonymizer.models.each do |model|
         puts "Anonymizing #{model.name}..."
-        model.find_each(&:save!)
+        model.find_each do |record|
+          ActiveRecordAnonymizer::AttributesAnonymizer.new(record).populate
+        end
       end
       puts "Anonymize columns for all models done!"
     end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ActiveRecordAnonymizer
-  class Anonymizer
+  class Initiator
     attr_reader :model, :attributes, :with, :column_name
 
     def initialize(model, attributes, with: nil, column_name: nil)
@@ -17,7 +17,7 @@ module ActiveRecordAnonymizer
       check_for_missing_anonymized_columns(attributes)
     end
 
-    def anonymize_attributes
+    def configure_anonymization
       attributes.each do |attribute|
         anonymized_column = anonymized_column_name(attribute)
 
