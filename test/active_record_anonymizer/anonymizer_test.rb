@@ -31,18 +31,18 @@ class ActiveRecordAnonymizer::AnonymizerTest < ActiveSupport::TestCase
     assert_equal "with and column_names are not supported for multiple attributes. Try adding them seperately", error.message
   end
 
-  test "#anonymize_attributes returns blank if attributes are empty" do
+  test "#configure_anonymization returns blank if attributes are empty" do
     ActiveRecordAnonymizer::Anonymizer.any_instance.stubs(:define_anonymize_method).with do
       user = UserWithoutAnonymizeMethod.new(email: "test@example.com", first_name: "John", last_name: "Doe")
 
       assert_changes -> { user.first_name }, from: "John", to: "" do
         anonymizer = ActiveRecordAnonymizer::Anonymizer.new(UserWithoutAnonymizeMethod, %i[email first_name last_name])
-        anonymizer.anonymize_attributes
+        anonymizer.configure_anonymization 
       end
     end
   end
 
-  test "#anonymize_attributes returns the anonymized value if there is a value" do
+  test "#configure_anonymization returns the anonymized value if there is a value" do
     ActiveRecordAnonymizer::Anonymizer.any_instance.stubs(:define_anonymize_method).with do
       user = UserWithoutAnonymizeMethod.new(email: "test@example.com", first_name: "John", last_name: "Doe")
 
