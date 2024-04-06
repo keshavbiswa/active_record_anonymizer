@@ -56,7 +56,7 @@ end
 ```
 To populate the anonymized columns, run the following command:
 
-    $ bin/rails anonymize:populate CLASS=User
+    $ bin/rails anonymizer:populate CLASS=User
 
 The `CLASS` argument is optional, if not provided, it will anonymize all the models with anonymized columns.
 
@@ -71,9 +71,9 @@ Attributes can be anonymized using the `anonymize` method. The `anonymize` metho
 ```ruby
 class User < ApplicationRecord
   anonymize :first_name, :last_name
-  anonymize :email, with: ->(email) { Faker::Internet.email }
-  anonymize :age, with: ->(age) { age + 5 }
-  anonymize :phone, column_name: :fake_phone_number, with: ->(phone) { phone.gsub(/\d/, 'X') }
+  anonymize :email, with: ->(_record) { Faker::Internet.email }
+  anonymize :age, with: ->(record) { record.age + 5 }
+  anonymize :phone, column_name: :fake_phone_number, with: ->(record) { record.phone.gsub(/\d/, 'X') }
   anonymize :address, encrypt: true
 end
 ```
