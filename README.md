@@ -13,7 +13,7 @@ Using `ActiveRecordAnonymizer`, you can:
 
 ## Screencast
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/EcQHD33-P-g?si=kCBRPu5SnqL_ZInX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+[![Introducing ActiveRecordAnonymizer](https://img.youtube.com/vi/EcQHD33-P-g/0.jpg)](https://www.youtube.com/watch?v=EcQHD33-P-g)
 
 ## Installation
 
