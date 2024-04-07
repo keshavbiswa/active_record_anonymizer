@@ -13,7 +13,7 @@ Using `ActiveRecordAnonymizer`, you can:
 
 ## Screencast
 
-<a href="https://www.youtube.com/watch?v=EcQHD33-P-g"><img src="https://imgur.com/a/8zpqOXv" title="Introducing ActiveRecordAnonymizer. Anonymize ActiveRecord attributes with ease!
+<a href="https://www.youtube.com/watch?v=EcQHD33-P-g"><img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjVzY3JzZjdmbjVhOGU0OTZhZmY4Z2N5cXFtdmUzMWt6eWwya2U2OCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/NVoJyy7okYb72/giphy.gif" title="Introducing ActiveRecordAnonymizer. Anonymize ActiveRecord attributes with ease!
 " width="50%" /></a>
 
 ## Installation
