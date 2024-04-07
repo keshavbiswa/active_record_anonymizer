@@ -11,6 +11,10 @@ Using `ActiveRecordAnonymizer`, you can:
 - Encrypt anonymized data using `ActiveRecord::Encryption` (Requires Rails 7+)
 - Environment dependent, so you can decide whether you want to view original data in development and anonymized data in production
 
+## Screencast
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/EcQHD33-P-g?si=kCBRPu5SnqL_ZInX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ## Installation
 
 Add this line to your application's Gemfile:
